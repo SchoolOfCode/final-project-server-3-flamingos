@@ -5,6 +5,7 @@ const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
 const imagesRouter = require("./routes/images");
+const smsRouter = require("./routes/sms");
 
 const app = express();
 
@@ -16,5 +17,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/images", imagesRouter);
+app.use("/sms", smsRouter);
 
 module.exports = app;
