@@ -1,19 +1,30 @@
 {
-    "name": "final-project-server-3-flamingos",
-    "version": "0.0.0",
-    "private": true,
-    "scripts": {
-        "start": "env-cmd ./.env node ./bin/www",
-        "watch": "env-cmd ./.env nodemon ./bin/www"
-    },
-    "dependencies": {
-        "cloudinary": "^1.14.0",
-        "cookie-parser": "~1.4.3",
-        "debug": "~2.6.9",
-        "express": "~4.16.0",
-        "helmet": "^3.16.0",
-        "morgan": "~1.9.0",
-        "multer": "^1.4.1",
-        "multer-storage-cloudinary": "^2.2.1"
-    }
+  "name": "final-project-server-3-flamingos",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "env-cmd ./.env node ./bin/www",
+    "watch": "env-cmd ./.env nodemon ./bin/www",
+    "test": "jest --watch"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.14.0",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "env-cmd": "^8.0.2",
+    "express": "~4.16.0",
+    "helmet": "^3.16.0",
+    "jest": "^24.7.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.5.5",
+    "morgan": "~1.9.0",
+    "multer": "^1.4.1",
+    "multer-storage-cloudinary": "^2.2.1",
+    "nodemon": "^1.19.0",
+    "supertest": "^4.0.2"
+  }
 }
