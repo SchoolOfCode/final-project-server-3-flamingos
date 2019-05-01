@@ -10,10 +10,13 @@
         "cloudinary": "^1.14.0",
         "cookie-parser": "~1.4.3",
         "debug": "~2.6.9",
+        "env-cmd": "^8.0.2",
         "express": "~4.16.0",
         "helmet": "^3.16.0",
+        "mongoose": "^5.5.5",
         "morgan": "~1.9.0",
         "multer": "^1.4.1",
-        "multer-storage-cloudinary": "^2.2.1"
+        "multer-storage-cloudinary": "^2.2.1",
+        "nodemon": "^1.19.0"
     }
 }
