@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 
 const indexRouter = require("./routes/index");
 const imagesRouter = require("./routes/images");
+const usersRouter = require("./routes/users");
 
 const app = express();
 
@@ -22,5 +23,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/images", imagesRouter);
+app.use("/users", usersRouter);
 
 module.exports = app;
