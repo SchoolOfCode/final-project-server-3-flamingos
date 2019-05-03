@@ -12,6 +12,7 @@ describe("POST /route to make a new post", function() {
     latitute: -33.0,
     postCategory: ""
   };
+
   it("should respond with 201 new post created", function(done) {
     request(app)
       .post("/posts")
