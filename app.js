@@ -15,8 +15,18 @@ const app = express();
 //set up connection to database called 'watu'
 mongoose.connect(`${process.env.MONGO_URL}`, { useNewUrlParser: true });
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+});
+
 app.use(logger("dev"));
-app.use(helmet());
+//app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
