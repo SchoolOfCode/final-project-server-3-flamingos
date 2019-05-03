@@ -5,7 +5,7 @@
   "scripts": {
     "start": "env-cmd ./.env node ./bin/www",
     "watch": "env-cmd ./.env nodemon ./bin/www",
-    "test": "jest --watch"
+    "test": "jest --watchAll"
   },
   "jest": {
     "testEnvironment": "node"

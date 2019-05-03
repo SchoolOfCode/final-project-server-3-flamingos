@@ -3,10 +3,11 @@ const mongoose = require("mongoose");
 const postSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   username: String,
-  imageUpload: String, //url
+  imageUrl: String, //url
   imageId: String,
   description: String,
-  location: { longtitude: { type: Number, latitute: Number } },
+  longitude: Number,
+  latitute: Number,
   postCategory: String
 });
 

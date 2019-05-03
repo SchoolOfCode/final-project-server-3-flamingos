@@ -16,7 +16,7 @@ describe("POST /users", function() {
   let data = {
     phone: "+447555667799"
   };
-  it("should respond with 307, user exists", function(done) {
+  it.skip("should respond with 307, user exists", function(done) {
     request(app)
       .post("/users")
       .send(data)
