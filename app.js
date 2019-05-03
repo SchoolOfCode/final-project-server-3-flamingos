@@ -13,7 +13,7 @@ const postsRouter = require("./routes/posts");
 const app = express();
 
 //set up connection to database called 'watu'
-mongoose.connect("mongodb://localhost:27017/watu", { useNewUrlParser: true });
+mongoose.connect(`${process.env.MONGO_URL}`, { useNewUrlParser: true });
 
 app.use(logger("dev"));
 app.use(helmet());
