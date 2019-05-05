@@ -5,6 +5,8 @@ const logger = require("morgan");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
 
+const config = require("./config");
+
 const indexRouter = require("./routes/index");
 const imagesRouter = require("./routes/images");
 const usersRouter = require("./routes/users");
@@ -13,7 +15,7 @@ const postsRouter = require("./routes/posts");
 const app = express();
 
 //set up connection to database called 'watu'
-mongoose.connect(`${process.env.MONGO_URL}`, { useNewUrlParser: true });
+mongoose.connect(`${config.MONGO_URL}`, { useNewUrlParser: true });
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -26,7 +28,7 @@ app.use(function(req, res, next) {
 });
 
 app.use(logger("dev"));
-//app.use(helmet());
+//app.use(helmet()); //disabled becuase it caused CORB errors during dev
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
