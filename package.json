@@ -25,6 +25,7 @@
     "multer": "^1.4.1",
     "multer-storage-cloudinary": "^2.2.1",
     "nodemon": "^1.19.0",
+    "shortid": "^2.2.14",
     "supertest": "^4.0.2"
   }
 }
