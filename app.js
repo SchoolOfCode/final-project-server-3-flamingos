@@ -6,8 +6,9 @@ const helmet = require("helmet");
 const mongoose = require("mongoose");
 
 const config = require("./config");
+const { authenticate } = require("./utils");
 
-const indexRouter = require("./routes/index");
+const authenticateRouter = require("./routes/authenticate");
 const imagesRouter = require("./routes/images");
 const usersRouter = require("./routes/users");
 const postsRouter = require("./routes/posts");
@@ -34,7 +35,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
+app.use("/authenticate", authenticateRouter);
 app.use("/images", imagesRouter);
 app.use("/users", usersRouter);
 app.use("/posts", postsRouter);
