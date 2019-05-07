@@ -27,7 +27,7 @@ router.post("/", async function(req, res, next) {
             };
             const token = jwt.sign(
                 {
-                    exp: Math.floor(Date.now() / 1000) + 86400 * 14,
+                    exp: Math.floor(Date.now() / 1000) + 1209600,
                     data
                 },
                 JWT_SECRET,

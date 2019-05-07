@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Post = require("../models/posts");
+const User = require("../models/users");
+const jwt = require("jsonwebtoken");
+const config = require("../config");
+const JWT_SECRET = config.JWT_SECRET;
 
 //GET *get all posts*
 router.get("/", async (req, res, next) => {
@@ -27,8 +31,12 @@ router.get("/:id", async (req, res, next) => {
 
 //POST *make new post*
 router.post("/", async (req, res, next) => {
+    const { data } = jwt.verify(req.query.token, JWT_SECRET);
+    const userId = await User.findOne({
+        displayName: data.displayName
+    });
     try {
-        const post = new Post(req.body);
+        const post = new Post({ ...req.body, userId });
         await post.save();
         res.status(201).json({ payload: post });
     } catch (err) {
