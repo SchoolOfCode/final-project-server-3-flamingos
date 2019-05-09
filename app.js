@@ -16,7 +16,10 @@ const postsRouter = require("./routes/posts");
 const app = express();
 
 //set up connection to database called 'watu'
-mongoose.connect(`${config.MONGO_URL}`, { useNewUrlParser: true });
+mongoose.connect(`${config.MONGO_URL}`, {
+    useNewUrlParser: true,
+    useFindAndModify: false
+});
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -31,7 +34,7 @@ app.use(function(req, res, next) {
 app.use(logger("dev"));
 //app.use(helmet()); //disabled becuase it caused CORB errors during dev
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
