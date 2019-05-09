@@ -65,7 +65,8 @@ router.patch("/:id", async (req, res, next) => {
                 $push: {
                     comments: newComment
                 }
-            }
+            },
+            { new: true }
         )
             .populate("userId", "displayName")
             .populate("comments.userId", "displayName");
