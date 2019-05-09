@@ -4,6 +4,7 @@ const Post = require("../models/posts");
 const User = require("../models/users");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
+const { upload } = require("../utils");
 const JWT_SECRET = config.JWT_SECRET;
 
 //GET *get all posts*
@@ -36,8 +37,30 @@ router.post("/", async (req, res, next) => {
     const userId = await User.findOne({
         displayName: data.displayName
     });
+
+    let imageUrl;
+    let imageId;
+
+    if (req.files.file) {
+        try {
+            // ,;
+
+            // console.log(req.file);
+            // imageUrl = await req.file.secure_url;
+            // imageId = await req.file.public_id;
+
+            const image = await upload.single("file");
+            image.url = req.file.secure_url;
+            image.id = req.file.public_id;
+            imageId = image.id;
+            imageUrl = image.url;
+        } catch (err) {
+            console.log({ upload: err });
+        }
+    }
+
     try {
-        const post = new Post({ ...req.body, userId });
+        const post = new Post({ ...req.body, userId, imageUrl, imageId });
         await post.save();
         res.status(201).json({ payload: post });
     } catch (err) {

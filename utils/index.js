@@ -18,7 +18,7 @@ const storage = cloudinaryStorage({
     folder: "watu",
     allowedFormats: ["jpg", "png"]
 });
-const saveImage = multer({ storage: storage });
+const upload = multer({ storage: storage });
 
 // Authentication
 const comparePassword = (candidatePassword, password) => {
@@ -52,7 +52,7 @@ const authenticate = (req, res, next) => {
 };
 
 module.exports = {
-    saveImage,
+    upload,
     comparePassword,
     authenticate
 };
