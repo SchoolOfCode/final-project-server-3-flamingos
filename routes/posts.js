@@ -7,6 +7,10 @@ const config = require("../config");
 const { upload } = require("../utils");
 const JWT_SECRET = config.JWT_SECRET;
 
+// sockets stuff
+const http = require("http").Server(express);
+const io = require("socket.io")(http);
+
 //GET *get all posts*
 router.get("/", async (req, res, next) => {
     try {
@@ -42,8 +46,6 @@ router.post("/", upload.single("file"), async (req, res, next) => {
         let post = new Post({});
 
         if (req.file) {
-            // const imageId = req.file.public_id;
-            // const imageUrl = req.file.secure_url;
             post = new Post({
                 ...req.body,
                 userId,
@@ -54,11 +56,8 @@ router.post("/", upload.single("file"), async (req, res, next) => {
             post = new Post({ ...req.body, userId });
         }
 
-        await post.save();
-        res.status(201)
-            .json({ payload: post })
-            .populate("userId", "displayName")
-            .populate("comments.userId", "displayName");
+        await post.save().then(post => io.emit("post", post));
+        res.status(201).json({ payload: post });
     } catch (err) {
         console.error("New post fail!", err);
     }
@@ -89,8 +88,25 @@ router.patch("/:id", async (req, res, next) => {
         )
             .populate("userId", "displayName")
             .populate("comments.userId", "displayName");
+        io.emit(`${req.params.id}`, post);
         res.status(200).json({ success: true, payload: post });
     }
+});
+
+// start sockets and log connection/disconnection
+io.on("connection", function(socket) {
+    console.log("user connected");
+    socket.on("post", function(msg) {
+        io.emit("post", msg);
+    });
+    socket.on("disconnect", function() {
+        console.log("user disconnected");
+    });
+});
+
+console.log("express on :5000");
+http.listen(8000, function() {
+    console.log("socket on :8000");
 });
 
 module.exports = router;
