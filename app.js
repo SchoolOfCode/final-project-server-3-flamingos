@@ -40,5 +40,5 @@ app.use("/authenticate", authenticateRouter);
 app.use("/users", usersRouter);
 app.use("/posts", postsRouter);
 
-console.log("express on :5000");
+console.log(`express on :${process.env.PORT}`);
 module.exports = app;
