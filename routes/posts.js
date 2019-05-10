@@ -95,12 +95,12 @@ router.patch("/:id", async (req, res, next) => {
 
 // start sockets and log connection/disconnection
 io.on("connection", function(socket) {
-    console.log("user connected");
+    console.log("SOCKET /posts user connected");
     socket.on("post", function(msg) {
         io.emit("post", msg);
     });
     socket.on("disconnect", function() {
-        console.log("user disconnected");
+        console.log("SOCKET /posts user disconnected");
     });
 });
 
