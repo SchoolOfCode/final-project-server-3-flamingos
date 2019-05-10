@@ -4,6 +4,7 @@ const Post = require("../models/posts");
 const User = require("../models/users");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
+const { upload } = require("../utils");
 const JWT_SECRET = config.JWT_SECRET;
 
 //GET *get all posts*
@@ -31,15 +32,33 @@ router.get("/:id", async (req, res, next) => {
 });
 
 //POST *make new post*
-router.post("/", async (req, res, next) => {
+router.post("/", upload.single("file"), async (req, res, next) => {
     const { data } = jwt.verify(req.query.token, JWT_SECRET);
     const userId = await User.findOne({
         displayName: data.displayName
     });
+
     try {
-        const post = new Post({ ...req.body, userId });
+        let post = new Post({});
+
+        if (req.file) {
+            // const imageId = req.file.public_id;
+            // const imageUrl = req.file.secure_url;
+            post = new Post({
+                ...req.body,
+                userId,
+                imageUrl: req.file.secure_url,
+                imageId: req.file.public_id
+            });
+        } else {
+            post = new Post({ ...req.body, userId });
+        }
+
         await post.save();
-        res.status(201).json({ payload: post });
+        res.status(201)
+            .json({ payload: post })
+            .populate("userId", "displayName")
+            .populate("comments.userId", "displayName");
     } catch (err) {
         console.error("New post fail!", err);
     }

@@ -9,7 +9,6 @@ const config = require("./config");
 const { authenticate } = require("./utils");
 
 const authenticateRouter = require("./routes/authenticate");
-const imagesRouter = require("./routes/images");
 const usersRouter = require("./routes/users");
 const postsRouter = require("./routes/posts");
 
@@ -37,10 +36,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-
 app.use("/authenticate", authenticateRouter);
-app.use("/images", imagesRouter);
 app.use("/users", usersRouter);
-app.use("/posts", postsRouter);
+app.use("/posts", authenticate, postsRouter);
 
 module.exports = app;
