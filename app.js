@@ -11,6 +11,7 @@ const { authenticate } = require("./utils");
 const authenticateRouter = require("./routes/authenticate");
 const usersRouter = require("./routes/users");
 const postsRouter = require("./routes/posts");
+// const liveRouter = require("./routes/live");
 
 const app = express();
 
@@ -38,6 +39,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/authenticate", authenticateRouter);
 app.use("/users", usersRouter);
-app.use("/posts", authenticate, postsRouter);
+app.use("/posts", postsRouter);
+// app.use("/live", liveRouter);
 
+console.log("express on :5000");
 module.exports = app;
