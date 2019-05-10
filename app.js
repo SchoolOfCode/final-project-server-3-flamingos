@@ -42,4 +42,5 @@ app.use("/users", usersRouter);
 app.use("/posts", postsRouter);
 // app.use("/live", liveRouter);
 
+console.log("express on :5000");
 module.exports = app;

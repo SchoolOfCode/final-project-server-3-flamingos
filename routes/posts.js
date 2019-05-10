@@ -104,9 +104,8 @@ io.on("connection", function(socket) {
     });
 });
 
-console.log("express on :5000");
-http.listen(8000, function() {
-    console.log("socket on :8000");
+http.listen(process.env.SOCKET || 8000, function() {
+    console.log(`socket on :${process.env.SOCKET}`);
 });
 
 module.exports = router;
