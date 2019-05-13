@@ -15,7 +15,9 @@ const io = require("socket.io")(http);
 //GET *get all posts*
 router.get("/", async (req, res, next) => {
   try {
-    const posts = await Post.find({})
+    const posts = await Post.find({
+      /* confirmed: true */
+    })
       .populate("userId", "displayName")
       .populate("comments.userId", "displayName");
     res.status(200).json({ payload: posts });
@@ -49,9 +51,9 @@ router.post("/", upload.single("file"), async (req, res, next) => {
     if (req.file) {
       confirmPost(userId.phone);
       //send confirmation and await response before passing on to cloudinary and mongo
-      //on Confirm, send confirmation to mongo
+      //on Confirm, send confirmation to mongo....change userId.confirmed = true
       //findConfirmation
-      //then execute below
+      //then execute live update
       post = new Post({
         ...req.body,
         userId,
@@ -97,6 +99,29 @@ router.patch("/:id", async (req, res, next) => {
     io.emit(`${req.params.id}`, post);
     res.status(200).json({ success: true, payload: post });
   }
+});
+
+//PATCH *to confirm a post*
+router.patch("confirm/:id", async (req, res, next) => {
+  //const { data } = jwt.verify(req.query.token, JWT_SECRET);
+  try {
+    const user = await User.findOneAndUpdate(
+      {
+        displayName: req.params.id
+      },
+      { confirmed: req.body.confirmed },
+      { new: true }
+    );
+    user.save();
+    res.status(201).json({ success: "Post confirmed!", payload: user });
+  } catch (err) {
+    res.status(500).json({ error: err, message: "Can't confirm post" });
+  }
+  //UPDATE LIVE PAGE WITH NEW POST
+
+  // get the post id from url params
+  // find in the DB, findOneAndUpdate
+  // set the confirmed to true
 });
 
 // start sockets and log connection/disconnection
