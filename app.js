@@ -6,6 +6,7 @@ const helmet = require("helmet");
 const mongoose = require("mongoose");
 
 const config = require("./config");
+// const config = require("dotenv").config();
 // const { authenticate } = require("./utils");
 
 const authenticateRouter = require("./routes/authenticate");
@@ -15,19 +16,24 @@ const postsRouter = require("./routes/posts");
 const app = express();
 
 //set up connection to database called 'watu'
-mongoose.connect(`${config.MONGO_URL}`, {
+mongoose
+  .connect(`${config.MONGO_URL}`, {
     useNewUrlParser: true,
     useFindAndModify: false
-});
+  })
+  .then(() => console.log("Mongo connection successful!"))
+  .catch(err => console.log(err));
+
+console.log("Config: ", config);
 
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    next();
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
 });
 
 app.use(logger("dev"));
