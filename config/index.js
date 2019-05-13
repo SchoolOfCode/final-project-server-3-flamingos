@@ -5,9 +5,9 @@ const CLOUD_SECRET = process.env.CLOUD_SECRET;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 module.exports = {
-    MONGO_URL,
-    CLOUD_NAME,
-    CLOUD_KEY,
-    CLOUD_SECRET,
-    JWT_SECRET
+  MONGO_URL,
+  CLOUD_NAME,
+  CLOUD_KEY,
+  CLOUD_SECRET,
+  JWT_SECRET
 };
