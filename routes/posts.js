@@ -104,8 +104,8 @@ io.on("connection", function(socket) {
     });
 });
 
-http.listen(process.env.SOCKET || 8000, function() {
-    console.log(`socket on :${process.env.SOCKET}`);
+http.listen(process.env.PORT, function() {
+    console.log(`socket on :${process.env.PORT}`);
 });
 
 module.exports = router;
