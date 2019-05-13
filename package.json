@@ -4,14 +4,15 @@
     "private": true,
     "scripts": {
         "start": "node ./bin/www",
-        "watch": "env-cmd .env nodemon ./bin/www",
+        "watch": "env-cmd nodemon ./bin/www",
         "test": "jest --watchAll"
     },
     "jest": {
         "testEnvironment": "node"
     },
     "engines": {
-        "node": "10.15.x"
+        "node": "^10.15.x",
+        "npm": "^6.4.1"
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",
