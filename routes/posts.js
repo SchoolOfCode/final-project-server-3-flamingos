@@ -104,7 +104,7 @@ io.on("connection", function(socket) {
     });
 });
 
-http.listen(process.env.SOCKET || 8000, function() {
+http.listen(process.env.SOCKET, function() {
     console.log(`socket on :${process.env.SOCKET}`);
 });
 
