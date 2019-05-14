@@ -102,7 +102,7 @@ router.patch("/:id", async (req, res, next) => {
 });
 
 //PATCH *to confirm a post*
-router.patch("confirm/:id", async (req, res, next) => {
+router.patch("/confirm/:id", async (req, res, next) => {
   //const { data } = jwt.verify(req.query.token, JWT_SECRET);
   try {
     const user = await User.findOneAndUpdate(
