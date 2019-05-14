@@ -8,8 +8,9 @@ const commentSchema = new mongoose.Schema({
 });
 
 const postSchema = new mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    confirmed: { type: Boolean, default: false },
     postId: { type: String, default: shortId.generate },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     imageUrl: String,
     imageId: String,
     description: String,
