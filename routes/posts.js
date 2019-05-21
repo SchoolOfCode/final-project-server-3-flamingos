@@ -13,20 +13,6 @@ const shortId = require("shortid");
 const http = require("http").Server(express);
 const io = require("socket.io")(http);
 
-//GET *get all posts*
-// router.get("/", async (req, res, next) => {
-//   try {
-//     const posts = await Post.find({
-//       /* confirmed: true */
-//     })
-//       .populate("userId", "displayName")
-//       .populate("comments.userId", "displayName");
-//     res.status(200).json({ payload: posts });
-//   } catch (err) {
-//     console.error("Can't find posts", err);
-//   }
-// });
-
 router.get("/", async (req, res, next) => {
   //if (req.body.postId) {
   try {
@@ -102,42 +88,44 @@ router.post("/", upload.single("file"), async (req, res, next) => {
   }
 });
 
-//PATCH *to add comments*
-router.patch("/:id", async (req, res, next) => {
-  const { data } = jwt.verify(req.query.token, JWT_SECRET);
-  const userId = await User.findOne({
-    displayName: data.displayName
-  });
-  if (req.body.comment) {
-    const newComment = {
-      userId: userId,
-      comment: req.body.comment,
-      date: req.body.date
-    };
-    const post = await Post.findOneAndUpdate(
-      {
-        postId: req.params.id
-      },
-      {
-        $push: {
-          comments: newComment
-        }
-      },
-      { new: true }
-    )
-      .populate("userId", "displayName")
-      .populate("comments.userId", "displayName");
-    io.emit(`${req.params.id}`, post);
-    res.status(200).json({ success: true, payload: post });
-  }
-});
+// //PATCH *to add comments*
+// router.patch("/:id", async (req, res, next) => {
+//   const { data } = jwt.verify(req.query.token, JWT_SECRET);
+//   const userId = await User.findOne({
+//     displayName: data.displayName
+//   });
+//   if (req.body.comment) {
+//     const newComment = {
+//       userId: userId,
+//       comment: req.body.comment,
+//       date: req.body.date
+//     };
+//     const post = await Post.findOneAndUpdate(
+//       {
+//         postId: req.params.id
+//       },
+//       {
+//         $push: {
+//           comments: newComment
+//         }
+//       },
+//       { new: true }
+//     )
+//       .populate("userId", "displayName")
+//       .populate("comments.userId", "displayName");
+//     io.emit(`${req.params.id}`, post);
+//     res.status(200).json({ success: true, payload: post });
+//   }
+// });
 
 //PATCH *to confirm a post*
 router.patch("/c/", async (req, res, next) => {
   //const { data } = jwt.verify(req.query.token, JWT_SECRET);
   try {
     const { token, ...body } = req.body;
-    const { data } = jwt.verify(token, `${process.env.JWT_SECRET}`);
+    console.log("Token: ", token);
+    const { data } = jwt.verify(token, JWT_SECRET);
+    console.log("User: ", data);
     const user = await User.findOne({
       displayName: data.displayName
     });
@@ -155,7 +143,7 @@ router.patch("/c/", async (req, res, next) => {
       .populate("userId", "displayName")
       .populate("comments.userId", "displayName");
     io.emit("post", post);
-    res.status(201).json({ success: "Post confirmed!", payload: user });
+    res.status(200).json({ success: "Post confirmed!", payload: post });
   } catch (err) {
     res.status(500).json({ error: err, message: "Can't confirm post" });
   }
