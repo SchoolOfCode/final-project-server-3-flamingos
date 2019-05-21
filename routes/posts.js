@@ -7,23 +7,47 @@ const config = require("../config");
 const { upload } = require("../utils");
 const { confirmPost } = require("../utils");
 const JWT_SECRET = config.JWT_SECRET;
+const shortId = require("shortid");
 
 // sockets stuff
 const http = require("http").Server(express);
 const io = require("socket.io")(http);
 
 //GET *get all posts*
+// router.get("/", async (req, res, next) => {
+//   try {
+//     const posts = await Post.find({
+//       /* confirmed: true */
+//     })
+//       .populate("userId", "displayName")
+//       .populate("comments.userId", "displayName");
+//     res.status(200).json({ payload: posts });
+//   } catch (err) {
+//     console.error("Can't find posts", err);
+//   }
+// });
+
 router.get("/", async (req, res, next) => {
+  //if (req.body.postId) {
   try {
-    const posts = await Post.find({
-      /* confirmed: true */
+    const dateNow = new Date();
+    const searchDate = dateNow.setHours(dateNow.getHours() - 1);
+
+    console.log(searchDate);
+    const post = await Post.find({
+      confirmed: true,
+      updatedAt: { $gte: searchDate }
     })
       .populate("userId", "displayName")
       .populate("comments.userId", "displayName");
-    res.status(200).json({ payload: posts });
+
+    console.log("Posts: ", post);
+
+    return res.status(200).json({ payload: post });
   } catch (err) {
-    console.error("Can't find posts", err);
+    res.status(500).json({ Error: err });
   }
+  // }
 });
 
 //GET *get one posts*
@@ -40,26 +64,33 @@ router.get("/:id", async (req, res, next) => {
 
 //POST *make new post*
 router.post("/", upload.single("file"), async (req, res, next) => {
+  let post;
+  const { token, ...body } = req.body;
   const { data } = jwt.verify(req.query.token, JWT_SECRET);
-  const userId = await User.findOne({
+  const user = await User.findOne({
     displayName: data.displayName
   });
 
   try {
-    let post = new Post({});
-
     if (req.file) {
-      confirmPost(userId.phone);
+      post = new Post({
+        ...body,
+        userId: user._id,
+        postId: shortId.generate()
+      });
+
+      await post.save();
+      confirmPost(user.phone, post.postId);
       //send confirmation and await response before passing on to cloudinary and mongo
       //on Confirm, send confirmation to mongo....change userId.confirmed = true
       //findConfirmation
       //then execute live update
-      post = new Post({
-        ...req.body,
-        userId,
-        imageUrl: req.file.secure_url,
-        imageId: req.file.public_id
-      });
+      // post = new Post({
+      //   ...req.body,
+      //   userId,
+      //   imageUrl: req.file.secure_url,
+      //   imageId: req.file.public_id
+      // });
     } else {
       post = new Post({ ...req.body, userId });
     }
@@ -102,17 +133,28 @@ router.patch("/:id", async (req, res, next) => {
 });
 
 //PATCH *to confirm a post*
-router.patch("/confirm/:id", async (req, res, next) => {
+router.patch("/c/", async (req, res, next) => {
   //const { data } = jwt.verify(req.query.token, JWT_SECRET);
   try {
-    const user = await User.findOneAndUpdate(
+    const { token, ...body } = req.body;
+    const { data } = jwt.verify(token, `${process.env.JWT_SECRET}`);
+    const user = await User.findOne({
+      displayName: data.displayName
+    });
+    const post = await Post.findOneAndUpdate(
       {
-        displayName: req.params.id
+        postId: body.postId,
+        userId: user._id
       },
-      { confirmed: req.body.confirmed },
+      {
+        confirmed: true
+      },
+
       { new: true }
-    );
-    user.save();
+    )
+      .populate("userId", "displayName")
+      .populate("comments.userId", "displayName");
+    io.emit("post", post);
     res.status(201).json({ success: "Post confirmed!", payload: user });
   } catch (err) {
     res.status(500).json({ error: err, message: "Can't confirm post" });

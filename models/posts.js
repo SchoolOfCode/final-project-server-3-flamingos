@@ -2,12 +2,14 @@ const mongoose = require("mongoose");
 const shortId = require("shortid");
 
 const commentSchema = new mongoose.Schema({
-    comment: String,
-    date: { type: Date, default: Date.now },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+  comment: String,
+  date: { type: Date, default: Date.now },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
 });
 
-const postSchema = new mongoose.Schema({
+const postSchema = new mongoose.Schema(
+  {
+    confirmed: { type: Boolean, default: false },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     postId: { type: String, default: shortId.generate },
     imageUrl: String,
@@ -17,6 +19,8 @@ const postSchema = new mongoose.Schema({
     latitude: Number,
     postCategory: String,
     comments: [commentSchema]
-});
+  },
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("Post", postSchema);
