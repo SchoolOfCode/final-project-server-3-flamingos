@@ -55,10 +55,10 @@ const authenticate = (req, res, next) => {
     res.status(403).json({ message: "Access Denied" });
   }
 };
-const confirmPost = number => {
+const confirmPost = (number, postId) => {
   client.messages
     .create({
-      body: `Looks like you just made a post. Just checking it's you. Click here to confirm: https://watu.com/confirm`,
+      body: `Looks like you just made a post. Just checking it's you. Click here to confirm: http://192.168.0.67:3000/c/${postId}`,
       to: `${number}`, // Text this number
       from: `${twilioNumber}` // From a valid Twilio number
     })
