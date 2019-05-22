@@ -84,7 +84,7 @@ router.post("/", upload.single("file"), async (req, res, next) => {
     await post.save().then(post => io.emit("post", post));
     res.status(201).json({ payload: post });
   } catch (err) {
-    console.error("New post fail!", err);
+    res.status(500).json({ Error: err, message: "New post fail!" });
   }
 });
 
