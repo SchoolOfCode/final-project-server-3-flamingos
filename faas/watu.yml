@@ -1,0 +1,59 @@
+provider:
+    name: openfaas
+    gateway: http://j0nn.io
+functions:
+    watu-authenticate:
+        lang: node10-express
+        handler: ./authenticate
+        image: j0nnylester/report:authenticate
+        environment_file:
+            - env.yml
+    watu-posts-get:
+        lang: node10-express
+        handler: ./posts-get
+        image: j0nnylester/report:posts-get
+        environment_file:
+            - env.yml
+    watu-posts-add:
+        lang: node10-express
+        handler: ./posts-add
+        image: j0nnylester/report:posts-add
+        environment_file:
+            - env.yml
+            - twilio.yml
+    watu-posts-confirm:
+        lang: node10-express
+        handler: ./posts-confirm
+        image: j0nnylester/report:posts-confirm
+        environment_file:
+            - env.yml
+    watu-posts-add-comment:
+        lang: node10-express
+        handler: ./posts-add-comment
+        image: j0nnylester/report:posts-add-comment
+        environment_file:
+            - env.yml
+    watu-users-add:
+        lang: node10-express
+        handler: ./users-add
+        image: j0nnylester/report:users-add
+        environment_file:
+            - env.yml
+    watu-users-get:
+        lang: node10-express
+        handler: ./users-get
+        image: j0nnylester/report:users-get
+        environment_file:
+            - env.yml
+    watu-users-update:
+        lang: node10-express
+        handler: ./users-update
+        image: j0nnylester/report:users-update
+        environment_file:
+            - env.yml
+    sign-image:
+        lang: node10-express
+        handler: ./sign-image
+        image: j0nnylester/report:sign-image
+        environment_file:
+            - cloud.yml
