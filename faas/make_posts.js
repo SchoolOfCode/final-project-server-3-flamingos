@@ -8,11 +8,11 @@ const token =
 let dummy_posts = [
     {
         token,
-        description: "There's some vandalism at Snow Hill Station",
+        description:
+            "There's some vandalism at Snow Hill Station that's delaying trains",
         longitude: "-1.897511",
         latitude: "52.482577",
-        postCategory: "crime",
-        confirmed: "true"
+        postCategory: "travel"
     },
     {
         token,
@@ -20,8 +20,7 @@ let dummy_posts = [
             "The railings at Calthorpe Park and damage and my children might hurt themselves",
         longitude: "-1.899936",
         latitude: "52.459154",
-        postCategory: "crime",
-        confirmed: "true"
+        postCategory: "crime"
     },
     {
         token,
@@ -29,8 +28,7 @@ let dummy_posts = [
             "On a building site near Morrisons in Small Heath a colleague has cut his hand badly",
         longitude: "-1.861552",
         latitude: "52.473543",
-        postCategory: "emergency",
-        confirmed: "true"
+        postCategory: "emergency"
     }
 ];
 
