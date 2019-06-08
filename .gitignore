@@ -1,3 +1,12 @@
-node_modules/
-package-lock.json
-.env
+**node_modules/
+**package-lock.json
+express/.env
+faas/template/node10-express-*
+faas/template/node10-express/*
+!faas/template/node10-express/index.js
+faas/build
+faas/cloud.yml
+faas/env.yml
+faas/twilio.yml
+sockets/.env
+sockets/lib
