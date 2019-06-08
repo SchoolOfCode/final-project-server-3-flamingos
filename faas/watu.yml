@@ -51,8 +51,8 @@ functions:
         image: j0nnylester/report:users-update
         environment_file:
             - env.yml
-    sign-image:
-        lang: node10-express
+    watu-sign-image:
+        lang: python3
         handler: ./sign-image
         image: j0nnylester/report:sign-image
         environment_file:
