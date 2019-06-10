@@ -1,9 +1,9 @@
 **node_modules/
 **package-lock.json
 express/.env
-faas/template/node10-express-*
-faas/template/node10-express/*
-!faas/template/node10-express/index.js
+faas/template/*
+!faas/template/node10-express/
+!faas/template/python3/
 faas/build
 faas/cloud.yml
 faas/env.yml
