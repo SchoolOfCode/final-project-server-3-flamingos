@@ -1,35 +1,28 @@
 const request = require("request-promise-native");
 
-const timer = 25000;
-
-const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NTk5OTgzMTcsImRhdGEiOnsiZGlzcGxheU5hbWUiOiJqMG5ueWwifSwiaWF0IjoxNTU4Nzg4NzE3fQ.x883E4rwwUumnDIeTdZWeVDzhab0TAFmLGn3gPxEf4I";
+const timer = 2000;
 
 let dummy_posts = [
     {
-        token,
+        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjE0NTU0NjQsImRhdGEiOnsiZGlzcGxheU5hbWUiOiJqMG5ueWwifSwiaWF0IjoxNTYwMjQ1ODY0fQ.QcWKLW4NzekC-3z09SSvd3c7-zQazKvnCik9o4e3iYo",
         description:
-            "There's some vandalism at Snow Hill Station that's delaying trains",
+            "There's an awesome street artist near Birmingham Snow Hill",
+        imageId: "eza7niusoybtergdr4hv",
+        imageUrl: "https://res.cloudinary.com/soc-report/image/upload/v1560245588/demo/eza7niusoybtergdr4hv.jpg",
         longitude: "-1.897511",
         latitude: "52.482577",
-        postCategory: "travel"
+        postCategory: "event"
     },
     {
-        token,
+        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjE0NTU0OTQsImRhdGEiOnsiZGlzcGxheU5hbWUiOiJzdHVwb3QifSwiaWF0IjoxNTYwMjQ1ODk0fQ.aVgk6Aii3XljsKLdT2CFoI4O5onSa7qcTCoZtYjBdow",
         description:
-            "The railings at Calthorpe Park and damage and my children might hurt themselves",
+            "Just grabbing something to eat in the Old Moseley Arms",
+        imageId: "bzbakqskfvmmuaxdgtgm",
+        imageUrl: "https://res.cloudinary.com/soc-report/image/upload/v1560246014/demo/bzbakqskfvmmuaxdgtgm.jpg",
         longitude: "-1.899936",
         latitude: "52.459154",
-        postCategory: "crime"
+        postCategory: "restaurant"
     },
-    {
-        token,
-        description:
-            "On a building site near Morrisons in Small Heath a colleague has cut his hand badly",
-        longitude: "-1.861552",
-        latitude: "52.473543",
-        postCategory: "emergency"
-    }
 ];
 
 const make_posts = async () => {
